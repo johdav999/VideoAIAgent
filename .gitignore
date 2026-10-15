@@ -1,0 +1,34 @@
+# Dependencies and build products
+node_modules/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Local credentials and configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.aws/
+
+# Python and local upstream checkouts
+.venv/
+__pycache__/
+*.py[cod]
+external/
+
+# Generated jobs, videos, caches and logs
+data/
+out/
+outputs/
+renders/
+.cache/
+*.log
+
+# Machine-specific editor and OS files
+.vs/
+.idea/
+.DS_Store
+Thumbs.db

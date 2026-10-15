@@ -1,0 +1,22 @@
+{
+  "name": "video-ai-agent",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Windows-first video production service foundation for Virtual Company",
+  "type": "module",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johdav999/VideoAIAgent.git"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/api/main.mjs",
+    "dev": "node --env-file-if-exists=.env --watch src/api/main.mjs",
+    "doctor": "node scripts/doctor.mjs",
+    "check": "node --check src/api/main.mjs && node --check src/api/server.mjs && node --check scripts/doctor.mjs && node --check tests/api.test.mjs",
+    "test": "node --test"
+  }
+}

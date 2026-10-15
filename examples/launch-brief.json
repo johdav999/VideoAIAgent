@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "draft-1",
+  "template": "product-launch",
+  "brief": "Create a concise launch video showing how a company coordinates its specialist agents.",
+  "durationSeconds": 20,
+  "width": 1920,
+  "height": 1080,
+  "fps": 60,
+  "audio": {
+    "mode": "synthesized-score",
+    "bpm": 120
+  },
+  "brand": {
+    "name": "Virtual Company",
+    "personality": ["clear", "confident", "practical"]
+  }
+}
