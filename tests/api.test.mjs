@@ -7,10 +7,13 @@ test('foundation reports its actual capabilities and does not accept video jobs'
   const server = createApiServer();
   server.listen(0, '127.0.0.1');
   await once(server, 'listening');
-  t.after(() => new Promise((resolve, reject) => {
-    server.close((error) => error ? reject(error) : resolve());
-    server.closeAllConnections();
-  }));
+  t.after(
+    () =>
+      new Promise((resolve, reject) => {
+        server.close((error) => (error ? reject(error) : resolve()));
+        server.closeAllConnections();
+      }),
+  );
   const baseUrl = `http://127.0.0.1:${server.address().port}`;
 
   const health = await fetch(`${baseUrl}/health`);
@@ -22,9 +25,13 @@ test('foundation reports its actual capabilities and does not accept video jobs'
     capabilities: {rendering: false, cineticWindows: false, jobQueue: false, azureStorage: false},
   });
 
-  for (const [method, path] of [['POST', '/v1/video-jobs'], ['POST', '/health'], ['GET', '/missing']]) {
+  for (const [method, path] of [
+    ['POST', '/v1/video-jobs'],
+    ['POST', '/health'],
+    ['GET', '/missing'],
+  ]) {
     const response = await fetch(`${baseUrl}${path}`, {method});
     assert.equal(response.status, 404);
-    assert.deepEqual(await response.json(), {error: 'Not found'});
+    assert.deepEqual(await response.json(), {error: {code: 'NOT_FOUND', message: 'Not found.'}});
   }
 });

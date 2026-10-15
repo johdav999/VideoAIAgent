@@ -4,4 +4,4 @@
 
 Preview and sharp master modes are implemented. All Remotion packages are pinned to 4.0.529; browser setup records the executable and version. Technical success has `shipReady: false`; creative lint/forensics failures are reported separately.
 
-This is a local trusted-author CLI, not an HTTP render service or executable-code sandbox. Motion blur and the durable production job queue remain planned.
+The local HTTP job manager now invokes the same worker for a fixed, validated product-launch template. CLI authoring remains a trusted local workflow; the API accepts only declarative inputs. The disk-backed queue, state recovery and output retrieval live under `src/jobs` and `src/api`. Distributed deployment and motion blur remain planned.

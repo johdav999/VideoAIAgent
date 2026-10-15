@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "template": "product-launch",
+  "title": "One team. Shared direction.",
+  "message": "Specialist agents turn plans into coordinated action.",
+  "callToAction": "Build your virtual company",
+  "durationSeconds": 12,
+  "width": 1280,
+  "height": 720,
+  "fps": 30,
+  "brand": {
+    "name": "Virtual Company",
+    "background": "#101A2E",
+    "foreground": "#F4F7FB",
+    "accent": "#44D7B6"
+  }
+}

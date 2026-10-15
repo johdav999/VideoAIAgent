@@ -17,13 +17,14 @@
     "dev": "node --env-file-if-exists=.env --watch src/api/main.mjs",
     "doctor": "node scripts/doctor.mjs",
     "check": "node scripts/check.mjs",
-    "test": "node --test tests/api.test.mjs tests/adapter.test.mjs tests/process.test.mjs",
+    "test": "node --test tests/api.test.mjs tests/adapter.test.mjs tests/process.test.mjs tests/jobs.test.mjs",
     "browser:install": "node --env-file-if-exists=.env scripts/browser.mjs",
     "film:new": "node --env-file-if-exists=.env scripts/film.mjs new",
     "film:render": "node --env-file-if-exists=.env scripts/film.mjs render",
     "render:sample": "node --env-file-if-exists=.env scripts/film.mjs sample",
     "doctor:render": "node --env-file-if-exists=.env scripts/doctor.mjs --render",
-    "test:render": "node --env-file-if-exists=.env scripts/render-acceptance.mjs"
+    "test:render": "node --env-file-if-exists=.env scripts/render-acceptance.mjs",
+    "test:api-render": "node --env-file-if-exists=.env scripts/api-acceptance.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "5.3.0",
@@ -38,5 +39,10 @@
     "react-dom": "19.2.9",
     "remotion": "4.0.529",
     "tsx": "4.23.15"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.18",
+    "prettier": "3.6.2",
+    "typescript": "5.9.3"
   }
 }

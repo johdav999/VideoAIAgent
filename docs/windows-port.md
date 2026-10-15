@@ -51,4 +51,4 @@ Concurrent renders of one film fail on `.render.lock`. Graceful cancellation, ti
 
 See [Windows evidence](acceptance/windows-first-render.md) for real 1080p60 output, Unicode/spaces, format/audio measurements, frame inspection and failure/retry checks.
 
-Motion blur, frame-range exports, silent deliverables, font vending, HyperFrames, brand-kit delivery and the broader agent direction/review workflow are not ported. Starter placeholder lint failures and its static end-hold forensics failure are preserved. The HTTP job API, distributed queue, Azure deployment and customer-film approval remain future work.
+Motion blur, frame-range exports, silent deliverables, font vending, HyperFrames, brand-kit delivery and the broader agent direction/review workflow are not ported. The original CLI starter still retains its original creative findings. The newer [local job API](local-api.md) uses a configurable product-launch template that fixes that ending and has separate [Windows acceptance](acceptance/windows-job-service.md). Distributed queues, Azure deployment and customer-film approval remain future work.

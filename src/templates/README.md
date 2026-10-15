@@ -1,3 +1,5 @@
-# Video templates (planned)
+# Video templates
 
-Store reusable compositions and their validated input contracts here. Vendor required fonts and assets with provenance. Do not commit generated customer videos.
+`product-launch` is the version 1 template: title, message and call to action, with supplied brand colours/name, optional embedded PNG logo and 6-30 second timing. Local Geist fonts are used. Its advancing beat/progress system replaces the starter's static ending; section exits are frame-driven.
+
+`create-product-film.mjs` creates isolated generated copies from validated job inputs and adds the pinned Cinetic audio/QA scripts and licence. `lib/FontGate.tsx` is adapted from MIT Cinetic and carries attribution. No user-supplied JavaScript/TypeScript, URLs or filesystem paths are accepted through the job API.

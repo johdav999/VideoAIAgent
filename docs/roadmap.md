@@ -22,10 +22,14 @@ The first local render milestone is accepted; this is a supported subset, not fu
 
 ## 2. Video production API
 
-- [ ] Define versioned video specifications and OpenAPI contract.
-- [ ] Add durable job state, queue and one bounded worker.
-- [ ] Submit a specification, monitor it and retrieve a verified MP4.
-- [ ] Handle failures, cancellation, retries and process restarts.
+- [x] Define versioned video specifications and OpenAPI contract.
+- [x] Add durable local job state, queue and one bounded worker.
+- [x] Submit a specification, monitor progress and retrieve a verified MP4.
+- [x] Handle failures, cancellation, retries and process restarts.
+- [x] Add configurable product-launch copy, duration, brand palette and embedded PNG logo.
+- [x] Fix the starter's static ending in the new template and pass automated creative QA for the API sample.
+
+See [local API usage](local-api.md) and [Windows job-service acceptance](acceptance/windows-job-service.md). Customer creative approval remains separate from automated QA.
 
 ## 3. Virtual Company integration
 

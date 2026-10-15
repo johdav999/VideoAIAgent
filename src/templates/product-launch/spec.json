@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "template": "product-launch",
+  "title": "Your company. Working together.",
+  "message": "Specialist agents turn shared goals into coordinated action.",
+  "callToAction": "Build your team",
+  "brand": {
+    "name": "Virtual Company",
+    "background": "#101A2E",
+    "foreground": "#F4F7FB",
+    "accent": "#44D7B6"
+  },
+  "durationSeconds": 12,
+  "width": 1280,
+  "height": 720,
+  "fps": 30
+}

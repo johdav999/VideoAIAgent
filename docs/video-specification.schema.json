@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/johdav999/VideoAIAgent/specifications/video-v1",
+  "title": "VideoSpecificationV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "template", "title", "message", "callToAction", "brand"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "template": {"const": "product-launch"},
+    "title": {"type": "string", "minLength": 1, "maxLength": 72},
+    "message": {"type": "string", "minLength": 1, "maxLength": 160},
+    "callToAction": {"type": "string", "minLength": 1, "maxLength": 48},
+    "durationSeconds": {"type": "integer", "minimum": 6, "maximum": 30, "default": 12},
+    "width": {"type": "integer", "minimum": 320, "maximum": 1920, "multipleOf": 2, "default": 1280},
+    "height": {"type": "integer", "minimum": 180, "maximum": 1920, "multipleOf": 2, "default": 720},
+    "fps": {"type": "integer", "enum": [30, 60], "default": 30},
+    "brand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1, "maxLength": 36},
+        "background": {"type": "string", "pattern": "^#[A-Fa-f0-9]{6}$", "default": "#101A2E"},
+        "foreground": {"type": "string", "pattern": "^#[A-Fa-f0-9]{6}$", "default": "#F4F7FB"},
+        "accent": {"type": "string", "pattern": "^#[A-Fa-f0-9]{6}$", "default": "#44D7B6"},
+        "logoDataUrl": {
+          "type": "string",
+          "maxLength": 350022,
+          "pattern": "^data:image/png;base64,[A-Za-z0-9+/]+={0,2}$"
+        }
+      }
+    }
+  },
+  "$comment": "Server validation additionally enforces printable trimmed text, at most 28 user copy words, per-section reading time, <=2073600 total pixels, foreground contrast >=4.5:1, accent contrast >=3:1 and a PNG signature/header with <=256KiB compressed bytes and <=2048px dimensions. It also verifies input types, including explicit null values."
+}

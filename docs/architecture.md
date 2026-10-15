@@ -16,13 +16,14 @@ flowchart LR
   Worker --> Storage[Local artifacts or Azure Blob Storage]
 ```
 
-The local API's `GET /health`, Windows film scaffolder and local Remotion/FFmpeg CLI worker exist today. The HTTP job endpoints, production agent, durable queue and storage-service boxes describe the target architecture.
+The local HTTP job API, disk-backed queue, configurable product-launch template, Windows scaffolder and Remotion/FFmpeg worker exist today. Production AI direction, Virtual Company integration and cloud storage remain target architecture.
 
 ## Boundaries
 
 | Area | Responsibility |
 | --- | --- |
 | `src/api` | Validate requests, expose job status, return artifact references |
+| `src/jobs` | Serialize queue mutations, atomically persist job state, recover interrupted work |
 | `src/agent` | Brief, treatment, scene/timeline planning and revision workflow |
 | `src/cinetic-adapter` | Versioned upstream integration, Windows tooling and file handling |
 | `src/renderer` | Bounded render execution, audio muxing, QA and progress |
@@ -30,18 +31,19 @@ The local API's `GET /health`, Windows film scaffolder and local Remotion/FFmpeg
 
 Use Node.js 22.9+ for process orchestration. The imported Cinetic starter uses TypeScript/React with Remotion 4.0.529. Root npm packages and Python audio/QA dependencies are pinned; all Remotion packages use the same exact version. Vendored upstream source has an MIT notice and hash inventory, with no Cinetic fork.
 
-## Proposed job contract (not implemented)
+## Local job contract
 
 - `POST /v1/video-jobs`: validate a specification; persist it before returning 202 with a job ID and status URL.
-- `GET /v1/video-jobs/{id}`: report `queued`, `planning`, `rendering`, `succeeded`, `failed`, or `cancelled`, progress and structured errors.
-- `GET /v1/video-jobs/{id}/artifacts`: return authorized output references after verification.
+- `GET /v1/video-jobs/{id}`: report queued/preparing/rendering/verifying/cancelling or terminal state, progress and structured errors.
+- `POST /v1/video-jobs/{id}/cancel` and `/retry`: control the persisted job lifecycle.
+- `GET /v1/video-jobs/{id}/video`: stream a successful MP4 with byte-range support.
 
-Define a versioned schema and OpenAPI contract before adding endpoints. `examples/launch-brief.json` is design input, not a supported request contract. Successful status must require an actual probed output. Plan for idempotent submission, restart recovery and cancellation before connecting VC.
+See [OpenAPI](openapi.yaml), [versioned schema](video-specification.schema.json) and [local usage](local-api.md). The supported request example is `examples/product-launch.json`; the older `launch-brief.json` remains a design sketch for future agent direction. Success requires a real probed MP4; idempotency, restart recovery and cancellation have Windows acceptance evidence.
 
 ## Execution and storage
 
 The CLI uses one worker per film under ignored `data/films/`. It freezes a source bundle, records status/logs, enforces a deadline and bounded concurrency, and gates real output. Technical and creative QA are reported separately. This trusted local authoring workflow is not an executable-code sandbox.
 
-Add a durable queue and metadata store with the job API; choose Azure services when deployment requirements are concrete. Move artifacts to Azure Blob Storage behind a storage interface later.
+The service persists atomic JSON records under `data/service`, uses a single owner lock, and executes one job at a time. Interrupted jobs are rendered at least once, with a separate workspace for every attempt. Terminal success/failure and idempotency survive restart. Store/media retention is manual in this local milestone. Choose distributed Azure queue/storage services when deployment requirements are concrete.
 
 Constrain duration, resolution, concurrency and runtime. Accept declarative inputs rather than uploaded executable compositions. Launch subprocesses with argument arrays and keep private assets and credentials out of logs. Authentication and deployment hardening are required before exposing the service beyond loopback.

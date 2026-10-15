@@ -7,3 +7,5 @@ The source is original, with canonical LF line endings. See `cinetic/LICENSE` fo
 Imported surfaces: Remotion starter, cue/grid/film-lint scripts, score/synth/master, probe/sync checks, and encoded-video contact sheets/forensics helpers. The starter's original package/config files are retained for provenance; the adapter uses the repository's locked packages and explicit render API settings instead of running its Bash npm scripts.
 
 No Cinetic fork or global skill installation is used. To reproduce the import, check out the exact commit locally under ignored `external/cinetic`, then run `node scripts/vendor-cinetic.mjs`. Do not edit vendored files to bypass a failing hash check.
+
+The service template's `src/templates/product-launch/lib/FontGate.tsx` is adapted from the same MIT source and carries an attribution comment. The remaining product-launch artwork and service orchestration are authored in this repository.

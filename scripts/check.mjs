@@ -7,12 +7,26 @@ async function check(directory) {
   for (const entry of await readdir(directory, {withFileTypes: true})) {
     const file = path.join(directory, entry.name);
     if (entry.isDirectory()) await check(file);
-    else if (entry.name.endsWith('.mjs')) execFileSync(process.execPath, ['--check', file], {stdio: 'inherit'});
+    else if (entry.name.endsWith('.mjs'))
+      execFileSync(process.execPath, ['--check', file], {stdio: 'inherit'});
   }
 }
-for (const directory of ['src', 'scripts', 'tests']) await check(path.join(repositoryRoot, directory));
+for (const directory of ['src', 'scripts', 'tests'])
+  await check(path.join(repositoryRoot, directory));
+execFileSync(
+  process.execPath,
+  [
+    path.join(repositoryRoot, 'node_modules/typescript/bin/tsc'),
+    '--project',
+    path.join(repositoryRoot, 'tsconfig.json'),
+  ],
+  {stdio: 'inherit'},
+);
 await verifyVendor();
 const manifest = await json(path.join(repositoryRoot, 'package.json'));
-const versions = Object.entries(manifest.dependencies).filter(([name]) => name === 'remotion' || name.startsWith('@remotion/')).map(([, version]) => version);
-if (new Set(versions).size !== 1 || !/^4\.\d+\.\d+$/.test(versions[0])) throw new Error('All Remotion packages must use one exact 4.x version.');
+const versions = Object.entries(manifest.dependencies)
+  .filter(([name]) => name === 'remotion' || name.startsWith('@remotion/'))
+  .map(([, version]) => version);
+if (new Set(versions).size !== 1 || !/^4\.\d+\.\d+$/.test(versions[0]))
+  throw new Error('All Remotion packages must use one exact 4.x version.');
 console.log('Syntax, vendored source hashes and matching Remotion versions passed.');

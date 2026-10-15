@@ -1,0 +1,176 @@
+openapi: 3.1.0
+info:
+  title: VideoAIAgent local video API
+  version: 1.0.0
+  description: One local worker with durable disk-backed job state. Native Windows acceptance is documented separately.
+servers:
+  - url: http://127.0.0.1:4310
+paths:
+  /health:
+    get:
+      operationId: health
+      responses:
+        '200':
+          {
+            description: Service is listening; capability flags describe implemented features,
+            not dependency preflight.,
+          }
+        '503': {description: The local worker encountered a storage error.}
+  /v1/video-jobs:
+    post:
+      operationId: submitVideo
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          schema: {type: string, pattern: '^[A-Za-z0-9._:-]{1,128}$'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: './video-specification.schema.json'}
+      responses:
+        '202':
+          description: Input persisted before acceptance; Location identifies the job.
+          headers:
+            Location: {schema: {type: string}}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/VideoJob'}
+        '200': {description: Matching idempotency replay; Idempotency-Replayed is true.}
+        '400': {$ref: '#/components/responses/InvalidRequest'}
+        '409': {description: Idempotency key belongs to another normalized specification.}
+        '413': {description: JSON request exceeds 1 MiB.}
+        '415': {description: Content-Type must be application/json.}
+        '429': {description: Queue contains 100 unfinished jobs.}
+        '503': {description: Service is stopping or its worker is unavailable.}
+    get:
+      operationId: listVideos
+      parameters:
+        - in: query
+          name: limit
+          schema: {type: integer, minimum: 1, maximum: 100, default: 50}
+      responses:
+        '200': {description: Newest jobs first; body contains a jobs array.}
+  /v1/video-jobs/{id}:
+    parameters:
+      - {$ref: '#/components/parameters/JobId'}
+    get:
+      operationId: getVideo
+      responses:
+        '200':
+          description: Persisted status and measured render progress.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/VideoJob'}
+        '404': {description: Unknown job.}
+  /v1/video-jobs/{id}/cancel:
+    parameters:
+      - {$ref: '#/components/parameters/JobId'}
+    post:
+      operationId: cancelVideo
+      responses:
+        '202':
+          {
+            description: Queued job cancelled immediately or active cancellation persisted before stopping its worker. Poll until cancelled.,
+          }
+        '409': {description: Succeeded or failed job is already terminal.}
+        '404': {description: Unknown job.}
+  /v1/video-jobs/{id}/retry:
+    parameters:
+      - {$ref: '#/components/parameters/JobId'}
+    post:
+      operationId: retryVideo
+      responses:
+        '202':
+          {
+            description: Failed or cancelled job queued for a new isolated attempt with the same immutable input.,
+          }
+        '409': {description: Job is not failed or cancelled.}
+        '404': {description: Unknown job.}
+  /v1/video-jobs/{id}/video:
+    parameters:
+      - {$ref: '#/components/parameters/JobId'}
+    get:
+      operationId: downloadVideo
+      parameters:
+        - in: header
+          name: Range
+          schema: {type: string}
+      responses:
+        '200':
+          description: Verified MP4, with byte length and SHA-256 ETag.
+          content:
+            video/mp4:
+              schema: {type: string, format: binary}
+        '206': {description: Single byte range, with Content-Range and Accept-Ranges.}
+        '409': {description: Job has not succeeded.}
+        '410': {description: A previously completed artifact is missing from local storage.}
+        '416': {description: Invalid or unsatisfiable single byte range.}
+        '404': {description: Unknown job.}
+    head:
+      operationId: headVideo
+      responses:
+        '200': {description: Same artifact headers as GET, without a body.}
+        '409': {description: Job has not succeeded.}
+        '410': {description: Artifact is missing.}
+components:
+  parameters:
+    JobId: {in: path, name: id, required: true, schema: {type: string, format: uuid}}
+  responses:
+    InvalidRequest:
+      description: Invalid JSON, specification or idempotency key.
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [error]
+            properties:
+              error:
+                type: object
+                required: [code, message]
+                properties:
+                  code: {type: string}
+                  message: {type: string}
+  schemas:
+    VideoJob:
+      type: object
+      required:
+        [id, state, progress, attempts, recoveries, createdAt, updatedAt, specification, links]
+      properties:
+        id: {type: string, format: uuid}
+        state:
+          {
+            type: string,
+            enum:
+              [queued, preparing, rendering, verifying, cancelling, succeeded, failed, cancelled],
+          }
+        progress:
+          type: object
+          properties:
+            stage: {type: string}
+            percent: {type: integer, minimum: 0, maximum: 100}
+        attempts: {type: integer, minimum: 0}
+        recoveries: {type: integer, minimum: 0}
+        createdAt: {type: string, format: date-time}
+        updatedAt: {type: string, format: date-time}
+        specification:
+          {
+            type: object,
+            description: Normalized read-only input summary; logoDataUrl is replaced with brand.logoProvided.,
+          }
+        links: {type: object}
+        error: {type: object}
+        result:
+          type: object
+          properties:
+            url: {type: string}
+            sha256: {type: string}
+            bytes: {type: integer}
+            contentType: {const: video/mp4}
+            width: {type: integer}
+            height: {type: integer}
+            fps: {type: integer}
+            durationSeconds: {type: integer}
+            technicalQaPassed: {type: boolean}
+            creativeQaPassed: {type: boolean}
+            shipReady: {const: false}
