@@ -15,10 +15,12 @@
 - [x] Pin Remotion 4, Python packages and managed browser setup.
 - [x] Render and inspect MP4 samples with audio and technical QA on Windows.
 - [x] Exercise dependency failure, invalid browser, cancellation, timeout and successful retry.
-- [ ] Extend the adapter to motion blur, frame ranges and other upstream options.
+- [x] Extend the pinned v1.0.0 adapter to adaptive/10-bit blur, excerpts, chunks and sample reuse.
+- [x] Port HyperFrames, fonts, outlined logos, brand kits, delivery exports, layout/audio/gradient QA and the local direction/review workflow.
+- [x] Exercise both engines and the feature matrix on native Windows with retained real media/reports.
 - [ ] Replace starter artwork and pass creative/ship gates for a customer film.
 
-The first local render milestone is accepted; this is a supported subset, not full Cinetic parity. See [evidence and limitations](acceptance/windows-first-render.md).
+The native feature port targets the complete pinned v1.0.0 release. See [feature acceptance and boundaries](acceptance/windows-cinetic-complete.md). The [first-render report](acceptance/windows-first-render.md) records the earlier subset milestone; later upstream revisions require a separate inventory.
 
 ## 2. Video production API
 

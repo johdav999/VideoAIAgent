@@ -1,0 +1,439 @@
+{
+  "date": "2026-10-15",
+  "upstream": "91c43acf4ea183ea68861d4cd99ec054f6741876",
+  "platform": "win32",
+  "node": "v24.13.1",
+  "evidence": "data/native-acceptance-1792097620163",
+  "project": "data/films/Acceptance ö 1792097620163",
+  "hyperframesProject": "data/films/Acceptance HF ö 1792097620163",
+  "cases": [
+    {
+      "name": "audio",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 3.221
+    },
+    {
+      "name": "preview",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 14.544
+    },
+    {
+      "name": "chunks",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 5.73
+    },
+    {
+      "name": "blur10",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 8.475
+    },
+    {
+      "name": "blur-reuse",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 5.474
+    },
+    {
+      "name": "full-blur-master",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 40.73
+    },
+    {
+      "name": "loop-render",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 8.228
+    },
+    {
+      "name": "delivery",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 14.106
+    },
+    {
+      "name": "poster-fallback",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 0.349
+    },
+    {
+      "name": "loop-negative",
+      "pass": true,
+      "expectedFailure": true,
+      "seconds": 4.145
+    },
+    {
+      "name": "brand",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 13.985
+    },
+    {
+      "name": "font-local",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 0.208
+    },
+    {
+      "name": "outline",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 0.451
+    },
+    {
+      "name": "palette",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 0.322
+    },
+    {
+      "name": "palette-negative",
+      "pass": true,
+      "expectedFailure": true,
+      "seconds": 0.308
+    },
+    {
+      "name": "gradient",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 0.365
+    },
+    {
+      "name": "layout",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 3.592
+    },
+    {
+      "name": "layout-negative",
+      "pass": true,
+      "expectedFailure": true,
+      "seconds": 2.612
+    },
+    {
+      "name": "grab",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 0.455
+    },
+    {
+      "name": "grab-negative",
+      "pass": true,
+      "expectedFailure": true,
+      "seconds": 0.17
+    },
+    {
+      "name": "sheet-video",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 0.43
+    },
+    {
+      "name": "sheet-composition",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 8.286
+    },
+    {
+      "name": "forensics",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 2.021
+    },
+    {
+      "name": "av-audit",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 2.384
+    },
+    {
+      "name": "lint-negative",
+      "pass": true,
+      "expectedFailure": true,
+      "seconds": 0.179
+    },
+    {
+      "name": "hf-cues",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 0.115
+    },
+    {
+      "name": "hf-audio",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 2.086
+    },
+    {
+      "name": "hf-master",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 21.765
+    },
+    {
+      "name": "hf-deliver",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 0.664
+    },
+    {
+      "name": "hf-font",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 0.177
+    },
+    {
+      "name": "hf-snapshot",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 3.3
+    },
+    {
+      "name": "preview-servers",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 4.366
+    },
+    {
+      "name": "alpha-pixels",
+      "pass": true,
+      "expectedFailure": false,
+      "seconds": 0.211
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "data/films/Acceptance ö 1792097620163/out/preview.mp4",
+      "bytes": 432759,
+      "sha256": "1bd8e4a996bd16c6017eeb63443c7731ab282fc2cc7e9c7c30279c4555780213",
+      "codec": "h264",
+      "width": 640,
+      "height": 360,
+      "fps": "30/1",
+      "frames": 270,
+      "pixelFormat": "yuv420p",
+      "color": {
+        "space": "bt709",
+        "primaries": "bt709",
+        "transfer": "bt709",
+        "range": "tv"
+      },
+      "audio": [
+        {
+          "codec": "aac",
+          "sampleRate": "48000",
+          "channels": 2
+        }
+      ]
+    },
+    {
+      "file": "data/films/Acceptance ö 1792097620163/out/full-master.mp4",
+      "bytes": 516843,
+      "sha256": "0285449c45e191bb225b96f7d94842d3884a942bbf963977112d9d2c93970225",
+      "codec": "h264",
+      "width": 640,
+      "height": 360,
+      "fps": "30/1",
+      "frames": 270,
+      "pixelFormat": "yuv420p",
+      "color": {
+        "space": "bt709",
+        "primaries": "bt709",
+        "transfer": "bt709",
+        "range": "tv"
+      },
+      "audio": [
+        {
+          "codec": "aac",
+          "sampleRate": "48000",
+          "channels": 2
+        }
+      ]
+    },
+    {
+      "file": "data/films/Acceptance ö 1792097620163/out/blur10.mp4",
+      "bytes": 10256,
+      "sha256": "f3bbf96d8c5cb51229c7af547cd9b83882b769486c1c651b99f3192e05964fa1",
+      "codec": "h264",
+      "width": 640,
+      "height": 360,
+      "fps": "30/1",
+      "frames": 20,
+      "pixelFormat": "yuv420p10le",
+      "color": {
+        "space": "bt709",
+        "primaries": "bt709",
+        "transfer": "bt709",
+        "range": "tv"
+      },
+      "audio": []
+    },
+    {
+      "file": "data/films/Acceptance ö 1792097620163/out/deliver/Alpha.mov",
+      "bytes": 44415,
+      "sha256": "79814550d0a4c48f20bdc5d2c4ce8b988a185e5a7ff13ac45d11c5db2f0c1ed4",
+      "codec": "prores",
+      "width": 320,
+      "height": 180,
+      "fps": "30/1",
+      "frames": 8,
+      "pixelFormat": "yuva444p12le",
+      "color": {
+        "space": "bt709",
+        "primaries": "bt709",
+        "transfer": "bt709"
+      },
+      "audio": []
+    },
+    {
+      "file": "data/films/Acceptance ö 1792097620163/out/deliver/Alpha-alpha.webm",
+      "bytes": 1560,
+      "sha256": "93da281e4a91ecd9f03763e3ac9287ac1b970ad755e6618f44a3683b2481c003",
+      "codec": "vp9",
+      "width": 320,
+      "height": 180,
+      "fps": "30/1",
+      "frames": 8,
+      "pixelFormat": "yuv420p",
+      "color": {
+        "space": "bt709",
+        "primaries": "bt709",
+        "transfer": "bt709",
+        "range": "tv"
+      },
+      "audio": []
+    },
+    {
+      "file": "data/films/Acceptance HF ö 1792097620163/out/master.mp4",
+      "bytes": 310231,
+      "sha256": "dbaccf84efb8be8e898f71fbf1b41a7b6e172d8351e53f5c8bd29c786319d674",
+      "codec": "h264",
+      "width": 640,
+      "height": 360,
+      "fps": "30/1",
+      "frames": 150,
+      "pixelFormat": "yuv420p",
+      "color": {
+        "space": "bt709",
+        "primaries": "bt709",
+        "transfer": "bt709",
+        "range": "tv"
+      },
+      "audio": [
+        {
+          "codec": "aac",
+          "sampleRate": "48000",
+          "channels": 2
+        }
+      ]
+    },
+    {
+      "file": "data/films/Acceptance ö 1792097620163/out/deliver/loop.gif",
+      "bytes": 67262,
+      "sha256": "d2217c2897dd2f207adfe974c1233486caff064a0a9d482800983d7fec4a58b0",
+      "codec": "gif",
+      "width": 320,
+      "height": 180,
+      "fps": "25/1",
+      "frames": 50,
+      "pixelFormat": "bgra",
+      "color": {},
+      "audio": []
+    },
+    {
+      "file": "data/films/Acceptance ö 1792097620163/out/deliver/loop.webm",
+      "bytes": 2748,
+      "sha256": "390f71e9248897629d823e54c17616a0a06134a41e433d829303630cc9ace255",
+      "codec": "vp9",
+      "width": 320,
+      "height": 180,
+      "fps": "30/1",
+      "frames": 60,
+      "pixelFormat": "yuv420p",
+      "color": {
+        "space": "bt709",
+        "primaries": "bt709",
+        "transfer": "bt709",
+        "range": "tv"
+      },
+      "audio": []
+    },
+    {
+      "file": "data/films/Acceptance ö 1792097620163/out/deliver/Square.mp4",
+      "bytes": 4752,
+      "sha256": "a2be956c28aacd16c68d4d8a9ee61dfa427c51600ed45bcde593a91686655dc0",
+      "codec": "h264",
+      "width": 320,
+      "height": 320,
+      "fps": "30/1",
+      "frames": 30,
+      "pixelFormat": "yuv420p",
+      "color": {
+        "space": "bt709",
+        "primaries": "bt709",
+        "transfer": "bt709",
+        "range": "tv"
+      },
+      "audio": []
+    },
+    {
+      "file": "data/films/Acceptance ö 1792097620163/out/deliver/Portrait.mp4",
+      "bytes": 4990,
+      "sha256": "14098f14cc11b304d25f589c73f15006f6883067ed91a64d280786fa15b0f04e",
+      "codec": "h264",
+      "width": 320,
+      "height": 568,
+      "fps": "30/1",
+      "frames": 30,
+      "pixelFormat": "yuv420p",
+      "color": {
+        "space": "bt709",
+        "primaries": "bt709",
+        "transfer": "bt709",
+        "range": "tv"
+      },
+      "audio": []
+    }
+  ],
+  "previews": {
+    "pass": true,
+    "results": [
+      {
+        "engine": "remotion",
+        "port": 63620,
+        "servedHtml": true,
+        "ownedTreeCancelled": true
+      },
+      {
+        "engine": "hyperframes",
+        "port": 63644,
+        "servedHtml": true,
+        "ownedTreeCancelled": true
+      }
+    ]
+  },
+  "alpha": {
+    "pass": true,
+    "checks": [
+      {
+        "file": "Alpha.mov",
+        "clearRatio": 0.9386805555555555,
+        "opaqueRatio": 0.06034722222222222,
+        "pass": true
+      },
+      {
+        "file": "Alpha-alpha.webm",
+        "clearRatio": 0.9379340277777778,
+        "opaqueRatio": 0.05965277777777778,
+        "pass": true
+      }
+    ]
+  },
+  "pass": true,
+  "shipReady": false
+}

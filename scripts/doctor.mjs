@@ -25,7 +25,7 @@ function check(name, ok, detail) {
 }
 
 const [nodeMajor, nodeMinor] = process.versions.node.split('.').map(Number);
-check('Node.js >=22.9', nodeMajor > 22 || (nodeMajor === 22 && nodeMinor >= 9), process.version);
+check('Node.js >=22.12', nodeMajor > 22 || (nodeMajor === 22 && nodeMinor >= 12), process.version);
 
 const git = run('git', ['--version']);
 check('Git', git.ok, git.output || git.error || 'Unavailable');
@@ -58,7 +58,7 @@ check('FFmpeg libx264', encoders.ok && /\blibx264\b/.test(encoders.output),
   /\blibx264\b/.test(encoders.output) ? 'Encoder available' : 'Install an FFmpeg build with libx264.');
 
 if (process.argv.includes('--render')) {
-  const imports = python && run(python.executable, [...python.prefix, '-c', 'import numpy, scipy, soundfile, pyloudnorm, cv2; print("Audio/QA imports OK")']);
+  const imports = python && run(python.executable, [...python.prefix, '-c', 'import numpy, scipy, soundfile, pyloudnorm, cv2, librosa, fontTools, brotli, uharfbuzz, PIL; print("Audio, image, font and QA imports OK")']);
   check('Python audio/QA packages', Boolean(imports?.ok), imports?.output || 'Create .venv and install requirements-render.txt.');
   const manifest = JSON.parse(readFileSync(path.join(repositoryRoot, 'package.json'), 'utf8'));
   for (const [name, expected] of Object.entries(manifest.dependencies).filter(([name]) => name === 'remotion' || name.startsWith('@remotion/'))) {

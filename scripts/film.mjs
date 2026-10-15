@@ -13,7 +13,7 @@ if (values.help || !command) {
     if (!['new', 'render', 'sample'].includes(command) || positionals.length !== 1) throw new Error('Use new, render or sample; see --help.');
     const concurrency = Number(values.concurrency);
     const timeout = Number(values['timeout-seconds']);
-    if (!['preview', 'master'].includes(values.mode)) throw new Error('Mode must be preview or master. Motion blur is not ported yet.');
+    if (!['preview', 'master'].includes(values.mode)) throw new Error('Mode must be preview or master. Use npm.cmd run cinetic for blur.');
     if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 4) throw new Error('Concurrency must be 1-4.');
     if (!Number.isInteger(timeout) || timeout < 1 || timeout > 3600) throw new Error('Timeout must be 1-3600 seconds.');
     let project;

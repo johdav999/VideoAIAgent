@@ -268,7 +268,7 @@ await writeJson(path.join(project, 'out/qa/acceptance.json'), {
   shipReady: false,
   limitations: [
     ...(spec.template === 'cinetic-starter' ? ['Cinetic starter placeholder brand'] : []),
-    'Motion blur not implemented',
+    'This job used a sharp render; the native authoring CLI also supports motion blur',
     'Contact sheet requires visual review; no creative approval',
   ],
 });

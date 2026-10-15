@@ -1,5 +1,7 @@
 # First native Windows render acceptance
 
+Historical milestone. Its original scope limitations are superseded by [the complete pinned-release port](windows-cinetic-complete.md).
+
 Date: 15 October 2026. Scope: local Windows CLI scaffolding, preview/sharp rendering and technical output acceptance. This is not full Cinetic parity or customer-film approval.
 
 ## Implemented path

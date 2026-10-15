@@ -25,6 +25,7 @@ The local HTTP job API, disk-backed queue, configurable product-launch template,
 | `src/api` | Validate requests, expose job status, return artifact references |
 | `src/jobs` | Serialize queue mutations, atomically persist job state, recover interrupted work |
 | `src/agent` | Brief, treatment, scene/timeline planning and revision workflow |
+| `skills/cinetic-windows` | Implemented local agent direction, critic and revision workflow |
 | `src/cinetic-adapter` | Versioned upstream integration, Windows tooling and file handling |
 | `src/renderer` | Bounded render execution, audio muxing, QA and progress |
 | `src/templates` | Reusable compositions and input definitions |

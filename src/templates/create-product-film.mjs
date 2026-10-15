@@ -8,6 +8,7 @@ import {
   writeJson,
 } from '../cinetic-adapter/workspace.mjs';
 import {validateSpecification} from '../jobs/specification.mjs';
+import {copyScripts} from '../cinetic-adapter/native-context.mjs';
 
 export async function createProductFilm(input, name) {
   const spec = validateSpecification(input);
@@ -20,6 +21,7 @@ export async function createProductFilm(input, name) {
     recursive: true,
   });
   await cp(path.join(vendorRoot, 'scripts'), path.join(project, 'scripts'), {recursive: true});
+  await copyScripts(project);
   await cp(path.join(vendorRoot, 'LICENSE'), path.join(project, 'CINETIC-LICENSE'));
   for (const directory of ['audio', 'public/audio', 'out/qa', 'out/stems'])
     await mkdir(path.join(project, directory), {recursive: true});

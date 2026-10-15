@@ -61,4 +61,4 @@ Successful MP4s, their SHA-256 values and result paths remain in the same checko
 
 `npm.cmd test` uses isolated unit fixtures for HTTP/state/process behavior. `npm.cmd run test:api-render` performs real rendering, cancellation, hard restart, failed-job persistence, explicit retry and MP4 hash retrieval on Windows. It writes local evidence under `data/api-acceptance-*` and never uses an injected renderer.
 
-Virtual Company integration, AI direction, authentication for remote clients, Azure storage/deployment and motion blur remain future work.
+Virtual Company integration, hosted AI direction, remote-client authentication and Azure storage/deployment remain future work. This HTTP contract uses sharp renders; the [native Cinetic CLI and local directing skill](windows-cinetic.md) support motion blur and the full pinned release's authoring tools.

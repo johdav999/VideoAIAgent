@@ -1,5 +1,7 @@
 # Native Windows job-service acceptance
 
+Historical API milestone. The later [native Cinetic feature report](windows-cinetic-complete.md) supersedes its CLI/blur limitations; the HTTP contract remains a sharp product-template renderer.
+
 Date: 15 October 2026. Scope: local JSON request to verified MP4, configurable template, durable state, cancellation, restart recovery and retrieval. This succeeds the [initial CLI port milestone](windows-first-render.md).
 
 ## Implemented result

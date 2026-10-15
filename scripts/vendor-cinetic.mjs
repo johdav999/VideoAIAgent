@@ -19,6 +19,8 @@ for (const script of scripts) {
   await mkdir(path.dirname(path.join(destination, 'scripts', script)), {recursive: true});
   await cp(path.join(source, 'skills/cinetic/scripts', script), path.join(destination, 'scripts', script));
 }
+// Preserve the complete release as source evidence. The native adapter never executes Bash.
+await cp(path.join(source, 'skills/cinetic'), path.join(destination, 'release'), {recursive: true});
 const files = {};
 async function hashes(directory) {
   for (const entry of await readdir(directory, {withFileTypes: true})) {

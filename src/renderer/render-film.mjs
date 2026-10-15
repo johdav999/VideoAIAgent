@@ -16,7 +16,7 @@ export async function renderFilm(
   } = {},
 ) {
   if (!['preview', 'master'].includes(mode))
-    throw new Error('Mode must be preview or master. Motion blur is not ported yet.');
+    throw new Error('This renderer supports preview or master. Use the native cinetic CLI for blur.');
   if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 4)
     throw new Error('Concurrency must be 1-4.');
   if (!Number.isInteger(timeoutSeconds) || timeoutSeconds < 1 || timeoutSeconds > 3600)
