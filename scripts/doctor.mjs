@@ -1,4 +1,7 @@
 import {spawnSync} from 'node:child_process';
+import {existsSync, readFileSync} from 'node:fs';
+import path from 'node:path';
+import {repositoryRoot, verifyVendor} from '../src/cinetic-adapter/workspace.mjs';
 
 function run(executable, args) {
   const result = spawnSync(executable, args, {
@@ -27,8 +30,10 @@ check('Node.js >=22.9', nodeMajor > 22 || (nodeMajor === 22 && nodeMinor >= 9), 
 const git = run('git', ['--version']);
 check('Git', git.ok, git.output || git.error || 'Unavailable');
 
+const localPython = path.join(repositoryRoot, process.platform === 'win32' ? '.venv/Scripts/python.exe' : '.venv/bin/python');
 const pythonCandidates = process.env.PYTHON_PATH
   ? [[process.env.PYTHON_PATH, []]]
+  : existsSync(localPython) ? [[localPython, []]]
   : process.platform === 'win32'
     ? [['python', []], ['py', ['-3']], ['python3', []]]
     : [['python3', []], ['python', []]];
@@ -36,7 +41,7 @@ let python;
 for (const [executable, prefix] of pythonCandidates) {
   const result = run(executable, [...prefix, '-c', 'import sys; print(sys.version.split()[0]); sys.exit(0 if sys.version_info >= (3, 11) else 1)']);
   if (result.ok) {
-    python = {executable, ...result};
+    python = {executable, prefix, ...result};
     break;
   }
 }
@@ -52,6 +57,25 @@ const encoders = run('ffmpeg', ['-hide_banner', '-encoders']);
 check('FFmpeg libx264', encoders.ok && /\blibx264\b/.test(encoders.output),
   /\blibx264\b/.test(encoders.output) ? 'Encoder available' : 'Install an FFmpeg build with libx264.');
 
-console.log('\nScope: executable checks only. Cinetic, Python packages, Remotion and Chromium are not validated.');
-console.log('Next milestone: implement the native Windows adapter and render a sample MP4.');
+if (process.argv.includes('--render')) {
+  const imports = python && run(python.executable, [...python.prefix, '-c', 'import numpy, scipy, soundfile, pyloudnorm, cv2; print("Audio/QA imports OK")']);
+  check('Python audio/QA packages', Boolean(imports?.ok), imports?.output || 'Create .venv and install requirements-render.txt.');
+  const manifest = JSON.parse(readFileSync(path.join(repositoryRoot, 'package.json'), 'utf8'));
+  for (const [name, expected] of Object.entries(manifest.dependencies).filter(([name]) => name === 'remotion' || name.startsWith('@remotion/'))) {
+    try {
+      const actual = JSON.parse(readFileSync(path.join(repositoryRoot, 'node_modules', name, 'package.json'), 'utf8')).version;
+      check(name, actual === expected, `${actual} (expected ${expected})`);
+    } catch { check(name, false, 'Run npm.cmd ci.'); }
+  }
+  try { await verifyVendor(); check('Cinetic provenance', true, 'Pinned source hashes match.'); }
+  catch (error) { check('Cinetic provenance', false, error.message); }
+  let browser;
+  try { browser = JSON.parse(readFileSync(path.join(repositoryRoot, 'data/browser.json'), 'utf8')).path; } catch { /* First setup. */ }
+  const browserPath = process.env.REMOTION_BROWSER || process.env.CHROMIUM_PATH || browser;
+  const browserResult = browserPath && run(browserPath, ['--version']);
+  check('Chromium executable', Boolean(browserResult?.ok), browserResult?.output || 'Run npm.cmd run browser:install.');
+  console.log('\nPreflight only. Each render must still pass its output and audio gates.');
+} else {
+  console.log('\nExecutable checks only. Use npm.cmd run doctor:render for renderer preflight.');
+}
 if (checks.some(({ok}) => !ok)) process.exitCode = 1;

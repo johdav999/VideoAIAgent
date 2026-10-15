@@ -9,11 +9,16 @@
 
 ## 1. Cinetic on native Windows
 
-- [ ] Select and record an upstream release/commit; no fork.
-- [ ] Inventory dependencies and Bash/Unix assumptions.
-- [ ] Implement film scaffolding and rendering entry points here.
-- [ ] Pin Remotion 4, Python packages and browser setup.
-- [ ] Render and inspect a sample MP4 with audio and QA evidence on Windows.
+- [x] Record Cinetic v1.0.0 source/licence/hashes; no fork.
+- [x] Inventory dependencies and Bash/Unix assumptions for the Remotion path.
+- [x] Implement native scaffolding, preview and sharp-master rendering.
+- [x] Pin Remotion 4, Python packages and managed browser setup.
+- [x] Render and inspect MP4 samples with audio and technical QA on Windows.
+- [x] Exercise dependency failure, invalid browser, cancellation, timeout and successful retry.
+- [ ] Extend the adapter to motion blur, frame ranges and other upstream options.
+- [ ] Replace starter artwork and pass creative/ship gates for a customer film.
+
+The first local render milestone is accepted; this is a supported subset, not full Cinetic parity. See [evidence and limitations](acceptance/windows-first-render.md).
 
 ## 2. Video production API
 

@@ -16,7 +16,7 @@ flowchart LR
   Worker --> Storage[Local artifacts or Azure Blob Storage]
 ```
 
-Only the local API's `GET /health` exists today. All production-flow boxes above describe the target architecture.
+The local API's `GET /health`, Windows film scaffolder and local Remotion/FFmpeg CLI worker exist today. The HTTP job endpoints, production agent, durable queue and storage-service boxes describe the target architecture.
 
 ## Boundaries
 
@@ -28,7 +28,7 @@ Only the local API's `GET /health` exists today. All production-flow boxes above
 | `src/renderer` | Bounded render execution, audio muxing, QA and progress |
 | `src/templates` | Reusable compositions and input definitions |
 
-Use Node.js 22.9+ for the initial foundation and future process orchestration. Introduce TypeScript and React with the renderer. Keep Python for compatible Cinetic audio and QA tooling. Pin exact dependencies once selected; the foundation deliberately has no external runtime packages.
+Use Node.js 22.9+ for process orchestration. The imported Cinetic starter uses TypeScript/React with Remotion 4.0.529. Root npm packages and Python audio/QA dependencies are pinned; all Remotion packages use the same exact version. Vendored upstream source has an MIT notice and hash inventory, with no Cinetic fork.
 
 ## Proposed job contract (not implemented)
 
@@ -40,6 +40,8 @@ Define a versioned schema and OpenAPI contract before adding endpoints. `example
 
 ## Execution and storage
 
-Start with one local worker and per-job directories under ignored `data/`. Add a durable queue and metadata store with the job API; choose Azure services when deployment requirements are concrete. Move artifacts to Azure Blob Storage behind a storage interface later.
+The CLI uses one worker per film under ignored `data/films/`. It freezes a source bundle, records status/logs, enforces a deadline and bounded concurrency, and gates real output. Technical and creative QA are reported separately. This trusted local authoring workflow is not an executable-code sandbox.
+
+Add a durable queue and metadata store with the job API; choose Azure services when deployment requirements are concrete. Move artifacts to Azure Blob Storage behind a storage interface later.
 
 Constrain duration, resolution, concurrency and runtime. Accept declarative inputs rather than uploaded executable compositions. Launch subprocesses with argument arrays and keep private assets and credentials out of logs. Authentication and deployment hardening are required before exposing the service beyond loopback.

@@ -1,50 +1,54 @@
-# Native Windows setup and Cinetic port
+# Native Windows Cinetic adapter
 
-## Upstream basis
+## Dependency and provenance
 
-The upstream is [Leonxlnx/cinetic](https://github.com/Leonxlnx/cinetic); see its [setup guide](https://github.com/Leonxlnx/cinetic/blob/main/docs/setup.md). It is an agent skill, with a Remotion starter and Python/Node/Bash tooling. Upstream currently documents macOS/Linux and untested WSL guidance. Our target is native Windows 11 with PowerShell.
+The adapter consumes [Cinetic v1.0.0](https://github.com/Leonxlnx/cinetic/tree/91c43acf4ea183ea68861d4cd99ec054f6741876), commit `91c43acf4ea183ea68861d4cd99ec054f6741876`, through a vendored subset. See `third_party/cinetic/provenance.json` for every source hash and `third_party/cinetic/LICENSE` for the MIT notice. Cinetic supplies an agent workflow and tooling rather than a hosted video API.
 
-**Do not fork Cinetic.** Implement Windows entry points in this repository. At the first integration milestone, select and record an exact upstream commit or release, preserve its licence and record any copied files and changes. A local checkout may live under ignored `external/`; no upstream code is bundled in this foundation.
+No fork or global skill installation is used. Original source retains canonical LF line endings. Generated copies receive width/height/fps/BPM substitutions. Native orchestration lives here rather than in upstream Bash scripts.
 
-## Foundation diagnostics
-
-```powershell
-npm.cmd run doctor
-```
-
-Doctor checks Node >=22.9, Git, Python >=3.11, FFmpeg >=6 with libx264, and ffprobe >=6. It performs no installs and does not validate Python modules, Remotion, Chromium, or rendering.
-
-For the future render pipeline, prepare a repository-local Python environment:
+## Setup from PowerShell
 
 ```powershell
+npm.cmd ci
 python -m venv .venv
-$env:PYTHON_PATH = (Resolve-Path .venv/Scripts/python.exe).Path
-npm.cmd run doctor
+.venv/Scripts/python.exe -m pip install -r requirements-render.txt
+npm.cmd run browser:install
+npm.cmd run doctor:render
+npm.cmd run render:sample
 ```
 
-This does not install audio/QA dependencies. Select and lock those dependencies after checking the pinned Cinetic version. A Chromium headless-shell executable and matching Remotion 4 packages will also be required.
+Use Node >=22.9, Python >=3.11, FFmpeg/ffprobe >=6 with libx264. The accepted host uses Python 3.12.6. Python versions are exact in `requirements-render.txt`; Remotion packages are all 4.0.529 with an npm lockfile. Browser setup records Remotion's managed executable/version in ignored `data/browser.json`.
 
-## Porting work
+The worker uses `.venv/Scripts/python.exe` directly. `PYTHON_PATH` overrides it. `REMOTION_BROWSER`, then `CHROMIUM_PATH`, override the managed browser. Optional `.env` values are loaded by npm rendering commands; shell environment values win. No activation, global Python packages, Unix symlinks, Bash or WSL are required.
 
-| Surface | Windows implementation |
+## Implemented subset
+
+| Surface | Native implementation |
 | --- | --- |
-| Film scaffolding (`new-film.sh`) | Node file APIs, explicit paths, pinned starter and dependencies |
-| Render/mux orchestration (`render.sh`) | Node process APIs; preserve upstream flags, exit failures and QA gates |
-| Python dispatch | Explicit venv interpreter instead of assuming `python3` and shell activation |
-| Browser discovery | Explicit Windows executable path or managed Remotion browser; no `/opt` assumptions |
-| Fonts and assets | Portable copies and local asset references, with no Unix symlink requirement |
-| Audio and quality gates | Run Python tools through the selected interpreter; verify Windows subprocess and temp-file behavior |
-| Cancellation and cleanup | Terminate only the job's process tree and close file handles before cleanup |
+| Scaffolding | Node file copies; exclusive workspaces under `data/films` |
+| Timeline | Validated dimensions, fps/BPM and whole-beat grid |
+| Dependencies/fonts | Repository lockfile and local Geist font assets |
+| Browser | Recorded Windows executable or explicit override |
+| Cues/grid | Local Node/tsx dispatch with argument arrays |
+| Score/master | Explicit venv interpreter and upstream Python tools |
+| Preview/sharp master | Remotion Node APIs; frozen source bundle per attempt |
+| Audio mux | FFmpeg, AAC stereo/48 kHz, padded/trimmed to picture |
+| Technical gates | Score, grid, audio sync, format/loudness/peak probe |
+| Creative evidence | Encoded-video contact sheet, film lint and forensics |
+| Failure/cancellation | Owned process tree, deadline, lock, durable status and retry |
 
-Inventory the chosen upstream scripts before implementation. Use a preview render first, then cover audio, QA and motion blur. Additional engines and delivery variants can follow the Remotion path.
+API settings retain BT.709, yuv420p, JPEG q95, ANGLE and the font-loading timeout. The original CLI config is kept for provenance but is not executed. The scaffold does not run the original package's Bash-based npm scripts.
 
-## Acceptance for the first port
+Defaults are 1280x720/60 fps/120 BPM, with the starter's 9-second duration. Master means sharp CRF14; it does not imply motion blur or creative approval. Status records technical and creative QA separately and keeps `shipReady: false`.
 
-1. Record upstream revision and exact runtime/package/browser versions.
-2. Run from PowerShell without WSL or Git Bash, including a working directory with spaces and non-ASCII characters.
-3. Create and render a sample to a real MP4; preserve its treatment, inputs and render log locally.
-4. Use ffprobe to confirm dimensions, frame rate, duration, video codec/pixel format and expected audio stream.
-5. Run applicable upstream audio/sync/visual QA gates and inspect the output. Label preview-only evidence clearly.
-6. Exercise missing dependencies, a failed renderer, cancellation and retry; preserve actionable failure details.
+## Retry and retained evidence
 
-No part of this rendering acceptance has been completed by the repository setup.
+Correct the dependency/source problem and rerun `film:render` for the same project. Each attempt freezes a separate bundle under `out/work-*`; successful MP4 filenames are unique. Current QA reports are in `out/qa`; retries replace them. The render log appends attempts and `out/LATEST.txt` retains the last successful artifact. Archive the workspace before revising a delivery requiring immutable evidence.
+
+Concurrent renders of one film fail on `.render.lock`. Graceful cancellation, timeout and failure release the lock. After a hard OS/process crash, inspect the PID/start time recorded in that lock; remove only that film's lock after confirming its worker stopped. Automatic crash recovery belongs to the future production job service.
+
+## Acceptance and remaining scope
+
+See [Windows evidence](acceptance/windows-first-render.md) for real 1080p60 output, Unicode/spaces, format/audio measurements, frame inspection and failure/retry checks.
+
+Motion blur, frame-range exports, silent deliverables, font vending, HyperFrames, brand-kit delivery and the broader agent direction/review workflow are not ported. Starter placeholder lint failures and its static end-hold forensics failure are preserved. The HTTP job API, distributed queue, Azure deployment and customer-film approval remain future work.

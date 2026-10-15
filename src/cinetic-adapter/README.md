@@ -1,5 +1,5 @@
-# Cinetic Windows adapter (planned)
+# Cinetic Windows adapter
 
-Keep Cinetic integration and native Windows process/file handling behind this boundary. Consume a pinned upstream release or commit; do not fork the upstream repository.
+`workspace.mjs` verifies pinned Cinetic source hashes and scaffolds independent film workspaces under `data/films/`. It adapts timeline settings using Node file APIs without Bash or symlinks. It rejects unsafe Windows names and refuses to overwrite existing films.
 
-Do not treat Cinetic as a callable model API: it supplies a workflow, scripts and starter assets. See [the port plan](../../docs/windows-port.md) for acceptance requirements.
+Cinetic v1.0.0 source/licence/provenance live under `third_party/cinetic`; no fork or global skill installation is used. See [the port plan](../../docs/windows-port.md) for supported scope and remaining work.
