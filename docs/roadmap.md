@@ -33,6 +33,14 @@ The native feature port targets the complete pinned v1.0.0 release. See [feature
 
 See [local API usage](local-api.md) and [Windows job-service acceptance](acceptance/windows-job-service.md). Customer creative approval remains separate from automated QA.
 
+## Local video studio
+
+- [x] Same-origin brief form, editable three-scene copy and video settings.
+- [x] Real generation progress, playback/download, recent jobs and cancel/retry.
+- [x] Native Windows browser acceptance, real renders and failure/restart recovery.
+
+See [studio usage](studio.md) and [acceptance](acceptance/windows-studio.md). Model-based visual interpretation remains separate from the implemented local extractive planner.
+
 ## 3. Virtual Company integration
 
 - [ ] Add a VC client and Video Production Agent in the VC solution.

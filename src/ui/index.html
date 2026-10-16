@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f7f6" />
+    <title>VideoAI · Video studio</title>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/app.mjs"></script>
+  </head>
+  <body>
+    <a class="skip" href="#brief">Skip to video brief</a>
+    <header class="topbar">
+      <a class="wordmark" href="/" aria-label="VideoAI home"
+        ><img src="/icon.svg" width="32" height="32" alt="" /><span
+          >Video<span class="wordmark-ai">AI</span></span
+        ><span class="studio-tag">STUDIO</span></a
+      >
+      <div id="connection" class="connection" role="status">
+        <span class="connection-dot"></span><span id="connection-text">Connecting…</span>
+      </div>
+    </header>
+    <main>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">A LITTLE IDEA. A LITTLE MOTION.</p>
+          <h1>Make your next video.</h1>
+          <p class="intro-copy">Start with a brief. Leave with a first cut.</p>
+        </div>
+        <span class="template-pill"
+          ><span aria-hidden="true">◈</span> Three-scene motion video</span
+        >
+      </section>
+      <div class="workspace">
+        <section class="card brief-card" aria-labelledby="brief-heading">
+          <div class="section-heading">
+            <h2 id="brief-heading">Your video brief</h2>
+            <span class="step-number">01</span>
+          </div>
+          <form id="video-form">
+            <label for="brief">What should your video say?</label>
+            <textarea
+              id="brief"
+              name="brief"
+              rows="6"
+              minlength="8"
+              maxlength="4000"
+              required
+              placeholder="Work better together. Bring plans, people and priorities into one place. Start building today."
+            ></textarea>
+            <div class="field-note">
+              <span>Your wording becomes three editable scenes.</span
+              ><span id="brief-count">0 / 4000</span>
+            </div>
+            <label for="brand">Brand name</label
+            ><input
+              id="brand"
+              name="brand"
+              maxlength="36"
+              required
+              placeholder="Your brand"
+              value="Your brand"
+              autocomplete="organization"
+            />
+            <div class="form-row">
+              <div>
+                <label for="duration">Length</label
+                ><select id="duration" name="duration">
+                  <option value="8">8 seconds</option>
+                  <option value="12" selected>12 seconds</option>
+                  <option value="20">20 seconds</option>
+                  <option value="30">30 seconds</option>
+                </select>
+              </div>
+              <div>
+                <label for="format">Format</label
+                ><select id="format" name="format">
+                  <option value="landscape">Landscape · 16:9</option>
+                  <option value="portrait">Portrait · 9:16</option>
+                  <option value="square">Square · 1:1</option>
+                </select>
+              </div>
+            </div>
+            <fieldset class="palette-field">
+              <legend>Color mood</legend>
+              <div class="palette-options">
+                <label class="palette-choice"
+                  ><input type="radio" name="palette" value="evergreen" checked /><span
+                    class="palette-swatch evergreen"
+                  ></span
+                  >Evergreen</label
+                ><label class="palette-choice"
+                  ><input type="radio" name="palette" value="ocean" /><span
+                    class="palette-swatch ocean"
+                  ></span
+                  >Ocean</label
+                ><label class="palette-choice"
+                  ><input type="radio" name="palette" value="graphite" /><span
+                    class="palette-swatch graphite"
+                  ></span
+                  >Graphite</label
+                >
+              </div>
+            </fieldset>
+            <details id="copy-details" class="copy-details">
+              <summary>Edit scene copy <span class="optional">optional</span></summary>
+              <p class="copy-note">
+                We use your wording, rather than AI interpretation of visual directions. Review or
+                change the text that appears on screen.
+              </p>
+              <button id="prepare-copy" type="button" class="text-button">
+                Prepare copy from brief <span aria-hidden="true">↗</span>
+              </button>
+              <div id="copy-fields" hidden>
+                <label for="title-copy">01 · Opening</label
+                ><input id="title-copy" maxlength="72" /><label for="message-copy"
+                  >02 · Main message</label
+                ><textarea id="message-copy" rows="2" maxlength="160"></textarea
+                ><label for="cta-copy">03 · Call to action</label
+                ><input id="cta-copy" maxlength="48" />
+                <p id="copy-note" class="copy-note"></p>
+              </div>
+            </details>
+            <div id="form-error" class="error-box" role="alert" hidden></div>
+            <button id="generate" type="submit" class="primary-button">
+              <span id="generate-label">Generate video</span><span aria-hidden="true">↗</span>
+            </button>
+            <p class="render-note">Includes motion, typography and a synthesized soundtrack.</p>
+          </form>
+        </section>
+        <section class="preview-column" aria-labelledby="preview-heading">
+          <div class="card preview-card">
+            <div class="section-heading preview-header">
+              <h2 id="preview-heading">Your first cut</h2>
+              <span id="state-badge" class="state-badge" data-state="empty">Ready to create</span>
+            </div>
+            <div class="preview-stage" id="preview-stage">
+              <video
+                id="video"
+                controls
+                playsinline
+                preload="metadata"
+                aria-label="Generated video preview"
+                hidden
+              ></video>
+              <div id="placeholder" class="placeholder">
+                <div class="frame-art" aria-hidden="true">
+                  <div class="art-back"></div>
+                  <div class="art-middle"></div>
+                  <div class="art-front">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                      <path d="m10 7 11 7-11 7V7Z" fill="currentColor" />
+                    </svg>
+                  </div>
+                </div>
+                <span id="render-spinner" class="spinner" hidden></span>
+                <h3 id="placeholder-title">Your idea, in motion.</h3>
+                <p id="placeholder-note">Add a brief to make your first video.</p>
+              </div>
+            </div>
+            <div class="preview-info">
+              <div>
+                <p id="result-title" class="result-title">A blank canvas for your next idea</p>
+                <p id="result-meta" class="result-meta">Motion graphics · MP4</p>
+              </div>
+              <a id="download" class="secondary-button" hidden
+                >Download MP4 <span aria-hidden="true">↓</span></a
+              >
+            </div>
+            <div id="job-status" class="job-status" hidden>
+              <div class="progress-heading">
+                <span id="stage-label">Waiting in queue</span><strong id="percent">0%</strong>
+              </div>
+              <progress
+                id="progress"
+                max="100"
+                value="0"
+                aria-label="Video generation progress"
+              ></progress>
+              <ol class="stages" aria-label="Production stages">
+                <li data-stage="preparing">Prepare</li>
+                <li data-stage="rendering">Render</li>
+                <li data-stage="verifying">Check</li>
+                <li data-stage="succeeded">Ready</li>
+              </ol>
+              <p id="status-detail" class="status-detail" aria-live="polite"></p>
+              <div class="job-actions">
+                <button id="cancel" type="button" class="text-button" hidden>
+                  Cancel generation</button
+                ><button id="retry" type="button" class="secondary-button" hidden>
+                  Retry video <span aria-hidden="true">↗</span>
+                </button>
+              </div>
+              <p id="job-error" class="error-box" role="alert" hidden></p>
+            </div>
+          </div>
+          <div class="workflow-note">
+            <span class="note-icon" aria-hidden="true">✦</span>
+            <div>
+              <strong>A first cut you can build on.</strong>
+              <p>
+                Your brief fills a three-scene template. Use the copy editor to fine-tune the
+                message.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+      <section class="recent-section" aria-labelledby="recent-heading">
+        <div class="recent-heading">
+          <h2 id="recent-heading">Recent videos</h2>
+          <span class="recent-hint">Saved on this computer</span>
+        </div>
+        <div id="recent-jobs" class="recent-jobs">
+          <p class="recent-empty">
+            Your videos will appear here. You can come back while they render.
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer><span>VideoAI Studio</span><span>Made locally. Ready to share.</span></footer>
+  </body>
+</html>

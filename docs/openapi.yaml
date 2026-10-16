@@ -6,6 +6,48 @@ info:
 servers:
   - url: http://127.0.0.1:4310
 paths:
+  /:
+    get:
+      operationId: openStudio
+      responses:
+        '200':
+          description: Local video studio with brief entry, editable copy, job progress and MP4 preview.
+          content:
+            text/html:
+              schema: {type: string}
+  /v1/video-plans:
+    post:
+      operationId: planBrief
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [brief]
+              properties:
+                brief: {type: string, minLength: 8, maxLength: 4000}
+                brandName: {type: string, minLength: 1, maxLength: 36, description: At most four words.}
+                durationSeconds: {type: integer, minimum: 6, maximum: 30, default: 12}
+                format: {enum: [landscape, portrait, square], default: landscape}
+                palette: {enum: [evergreen, ocean, graphite], default: evergreen}
+      responses:
+        '200':
+          description: Local extractive scene copy; no AI model or render is invoked.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [method, specification, notice, shortened]
+                properties:
+                  method: {const: local-extractive-v1}
+                  specification: {$ref: './video-specification.schema.json'}
+                  notice: {type: string}
+                  shortened: {type: array, items: {enum: [title, message, callToAction]}}
+        '400': {$ref: '#/components/responses/InvalidRequest'}
+        '413': {description: JSON request exceeds 1 MiB.}
+        '415': {description: Content-Type must be application/json.}
   /health:
     get:
       operationId: health

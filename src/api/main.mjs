@@ -16,7 +16,7 @@ server.on('error', (error) => {
   void jobs.close();
 });
 server.listen(port, '127.0.0.1', () => {
-  console.log(`VideoAIAgent local service: http://127.0.0.1:${port}/health`);
+  console.log(`VideoAIAgent studio: http://127.0.0.1:${port}/`);
 });
 
 for (const signal of ['SIGINT', 'SIGTERM']) {

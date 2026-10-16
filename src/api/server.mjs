@@ -3,6 +3,8 @@ import {createReadStream} from 'node:fs';
 import {stat, realpath} from 'node:fs/promises';
 import path from 'node:path';
 import {ApiError} from '../jobs/specification.mjs';
+import {planBrief} from '../agent/brief-plan.mjs';
+import {serveUi} from './ui.mjs';
 
 export function publicJob(record) {
   const {id, state, progress, attempts, recoveries, createdAt, updatedAt} = record;
@@ -178,6 +180,7 @@ export function createApiServer({jobs} = {}) {
           'Cross-origin browser requests are not enabled.',
         );
       const url = new URL(request.url, `http://${host}`);
+      if (await serveUi(request, response, url.pathname)) return;
       if (request.method === 'GET' && url.pathname === '/health') {
         send(jobs?.fatal ? 503 : 200, {
           service: 'VideoAIAgent',
@@ -192,6 +195,10 @@ export function createApiServer({jobs} = {}) {
         return;
       }
       if (!jobs) throw new ApiError(404, 'NOT_FOUND', 'Not found.');
+      if (request.method === 'POST' && url.pathname === '/v1/video-plans') {
+        send(200, planBrief(await readBody(request)));
+        return;
+      }
       if (url.pathname === '/v1/video-jobs') {
         if (request.method === 'POST') {
           const {job, replayed} = await jobs.submit(

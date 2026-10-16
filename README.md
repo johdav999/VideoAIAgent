@@ -6,6 +6,10 @@ Repository: [johdav999/VideoAIAgent](https://github.com/johdav999/VideoAIAgent).
 
 ## Current status
 
+**A local video studio is available at [http://127.0.0.1:4310/](http://127.0.0.1:4310/).** Run `npm.cmd start`, enter a brief, optionally edit the three-scene copy, generate a video, follow progress and preview/download the MP4. The UI includes length/format/color choices, recent jobs, cancel/retry and reload recovery. See [studio usage](docs/studio.md).
+
+The first UI uses local text extraction and the existing motion template. It does not claim AI interpretation of visual directions or generated footage.
+
 **The local video job API works on Windows.** Submit a JSON specification, monitor progress, cancel/retry jobs and retrieve an MP4. A disk-backed queue survives restarts and one worker renders a configurable product-launch template with text, duration, brand colours and optional embedded PNG logo.
 
 The native authoring adapter covers the pinned [Cinetic v1.0.0](https://github.com/Leonxlnx/cinetic/tree/91c43acf4ea183ea68861d4cd99ec054f6741876) release, including Remotion 4.0.529, HyperFrames 0.8.79, adaptive motion blur, chunked/range rendering, fonts, brand kits, delivery formats and QA. Original sources and hashes remain in this repository. No Cinetic fork or global skill installation is used. See [the native command guide](docs/windows-cinetic.md) and [feature acceptance](docs/acceptance/windows-cinetic-complete.md).
@@ -24,6 +28,8 @@ npm.cmd run browser:install
 npm.cmd run doctor:render
 npm.cmd start
 ```
+
+Open the studio at [http://127.0.0.1:4310/](http://127.0.0.1:4310/) after starting the service.
 
 No virtual-environment activation or Bash is required. Initial setup downloads npm/Python packages and Remotion's pinned Chrome Headless Shell. Renders then use local fonts, code and browser.
 

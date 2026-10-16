@@ -17,7 +17,7 @@
     "dev": "node --env-file-if-exists=.env --watch src/api/main.mjs",
     "doctor": "node scripts/doctor.mjs",
     "check": "node scripts/check.mjs",
-    "test": "node --test tests/api.test.mjs tests/adapter.test.mjs tests/process.test.mjs tests/jobs.test.mjs tests/native.test.mjs",
+    "test": "node --test tests/api.test.mjs tests/adapter.test.mjs tests/process.test.mjs tests/jobs.test.mjs tests/native.test.mjs tests/studio.test.mjs",
     "browser:install": "node --env-file-if-exists=.env scripts/browser.mjs",
     "film:new": "node --env-file-if-exists=.env scripts/film.mjs new",
     "film:render": "node --env-file-if-exists=.env scripts/film.mjs render",

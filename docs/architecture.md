@@ -16,13 +16,15 @@ flowchart LR
   Worker --> Storage[Local artifacts or Azure Blob Storage]
 ```
 
-The local HTTP job API, disk-backed queue, configurable product-launch template, Windows scaffolder and Remotion/FFmpeg worker exist today. Production AI direction, Virtual Company integration and cloud storage remain target architecture.
+The local web studio, HTTP job API, disk-backed queue, configurable product-launch template, Windows scaffolder and Remotion/FFmpeg worker exist today. The studio's brief planner extracts editable scene text locally. Production AI direction, Virtual Company integration and cloud storage remain target architecture.
 
 ## Boundaries
 
 | Area | Responsibility |
 | --- | --- |
 | `src/api` | Validate requests, expose job status, return artifact references |
+| `src/ui` | Same-origin brief form, copy editor, real progress, recent jobs and MP4 preview |
+| `src/agent/brief-plan.mjs` | Bounded local text extraction into a validated template specification |
 | `src/jobs` | Serialize queue mutations, atomically persist job state, recover interrupted work |
 | `src/agent` | Brief, treatment, scene/timeline planning and revision workflow |
 | `skills/cinetic-windows` | Implemented local agent direction, critic and revision workflow |
